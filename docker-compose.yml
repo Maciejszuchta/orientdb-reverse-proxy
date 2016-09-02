@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    depends_on:
+      - orientdb223
+      - orientdb224
+    links:
+      - orientdb223
+      - orientdb224
+      - orientdb224ns
+    ports:
+      - "8080:8080"
+
+  orientdb223:
+    build:
+      context: .
+      dockerfile: orientdb-2.2.3.dockerfile
+    environment:
+      ORIENTDB_ROOT_PASSWORD: "password"
+
+  orientdb224:
+    build:
+      context: .
+      dockerfile: orientdb-2.2.4.dockerfile
+    environment:
+      ORIENTDB_ROOT_PASSWORD: "password"
+
+  orientdb224ns:
+    build:
+      context: .
+      dockerfile: orientdb-2.2.4-streaming-disabled.dockerfile
+    environment:
+      ORIENTDB_ROOT_PASSWORD: "password"
